@@ -19,6 +19,12 @@ func add(username, password, mailaddress, ip, roll string) (bool, string) {
 	if len(password) >= 72 {
 		log.Fatalf("72文字以上のパスワードは設定できません．")
 	}
+	if len(username) > 25 {
+		log.Fatalf("25文字以上のユーザー名は設定できません")
+	}
+	if len(mailaddress) > 50 {
+		log.Fatalf("50文字以上のメールアドレスは入力できません")
+	}
 	
 	DB_TYPE := cfg.Section("database").Key("DB_TYPE").String()
 	DB_HOST := cfg.Section("database").Key("DB_HOST").String()
