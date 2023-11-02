@@ -16,7 +16,7 @@ func add(username, password, mailaddress, ip, roll string) (bool, string) {
 		panic(err)
 	}
 
-	if len(password) > 72 {
+	if len(password) >= 72 {
 		log.Fatalf("72文字以上のパスワードは設定できません．")
 	}
 	
