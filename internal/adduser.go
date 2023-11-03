@@ -9,7 +9,7 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-func add(username, password, mailaddress, ip, roll string) (bool, string) {
+func Add(username, password, mailaddress, ip, roll string) (bool, string) {
 	cfg, err := ini.Load("../configs/config.ini")
 	//iniファイルの場所を指定する
 	if err != nil {
