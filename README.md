@@ -17,6 +17,7 @@ SimpleSVManagerは色々なサーバを複数運用している個人向けの�
 本Webアプリは**現在開発中**であり，Webアプリとして実行できる段階に達していません．ご注意ください．
 # ライセンス
 Copyright (C) 2023 furu04
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
