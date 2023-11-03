@@ -1,20 +1,19 @@
-package scripts
+package internal
 
 import (
-	"database/sql"
-	"time"
-	"fmt"
-	"log"
-	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/ini.v1"
+	"database/sql"
+	"fmt"
+	"time"
+	"log"
+	_"github.com/go-sql-driver/mysql"
 )
 
-func init() {
+func Authuser(username, password, mailaddress, ip string) (bool, string) {
 	cfg, err := ini.Load("../configs/config.ini")
 	if err != nil {
 		panic(err)
 	}
-
 	DB_TYPE := cfg.Section("database").Key("DB_TYPE").String()
 	DB_HOST := cfg.Section("database").Key("DB_HOST").String()
 	DB_PORT := cfg.Section("database").Key("DB_PORT").String()
@@ -32,17 +31,33 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	defer db.Close()
 
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
 
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (username varchar(25), mailaddress varchar(50), hash text, regip text, roll text)")
+	result, err := db.Query("SELECT * from users where username = ?", username)
 	if err != nil {
 		panic(err)
 	}
+	defer result.Close()
 
-	defer db.Close()
+	if result.Next() {
+		var username, mailaddress, hash, regip, roll string
+		err := result.Scan(&username, &mailaddress, &hash, &regip, &roll)
+		if err != nil {
+			panic(err)
+		}
+		
+		auth := CompareHashAndPassword(password, hash)
+		if auth {
+			return true, ""
+		} else {
+			return false, "パスワードが間違っています．"
+		}
 
-	// その他のテーブルも機能を実装する毎に作成する
+	} else {
+		return false, "ユーザが存在しません．"
+	}
 }

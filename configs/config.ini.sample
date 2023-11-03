@@ -1,0 +1,12 @@
+[server]
+PROTOCOL = http
+PORT = 3000
+
+[database]
+DB_TYPE = mysql
+DB_HOST = localhost
+DB_PORT = 3306
+DB_NAME = simplesvmanager
+DB_USER = simplesvmanager
+DB_PASSWORD = password 
+DB_CHARSET = utf8mb4
